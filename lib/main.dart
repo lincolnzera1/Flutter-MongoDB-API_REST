@@ -2,14 +2,17 @@ import 'dart:convert';
 
  import 'package:flutter/material.dart'; 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_verbos/classes/pessoas.dart';
 import 'package:flutter_verbos/dbHelper/mongodb.dart';
+import 'package:flutter_verbos/get.dart';
 import 'package:flutter_verbos/insert.dart';
 import 'package:flutter_verbos/verbos.dart';
 import 'package:http/http.dart' as http;
 import 'package:mongo_dart/mongo_dart.dart';
 
 Future main() async{
+  await dotenv.load();
   //Chama a conexão com o database, quando o app inicia
   WidgetsFlutterBinding.ensureInitialized();
   await MongoDataBase.connect();
@@ -26,7 +29,7 @@ Future main() async{
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MongoDbInsert(),
+      home: GetData(),
       debugShowCheckedModeBanner: false,
     );
   }
