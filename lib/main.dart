@@ -7,6 +7,7 @@ import 'package:flutter_verbos/classes/pessoas.dart';
 import 'package:flutter_verbos/dbHelper/mongodb.dart';
 import 'package:flutter_verbos/get.dart';
 import 'package:flutter_verbos/insert.dart';
+import 'package:flutter_verbos/pages/initialPage.dart';
 import 'package:flutter_verbos/verbos.dart';
 import 'package:http/http.dart' as http;
 import 'package:mongo_dart/mongo_dart.dart';
@@ -28,8 +29,24 @@ Future main() async{
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
-      home: GetData(),
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+        inputDecorationTheme: const InputDecorationTheme(
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(width: 3, color: Colors.purple),
+             borderRadius: BorderRadius.all(Radius.circular(15))
+          ),
+          
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(width: 3, color: Colors.purple),
+             borderRadius: BorderRadius.all(Radius.circular(15))
+          ),
+          
+        ),
+      ),
+      home: LoginScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
