@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_verbos/dbHelper/mongodb.dart';
 import 'package:flutter_verbos/pages/feedPage.dart';
 import 'package:flutter_verbos/pages/registerPage.dart';
+import 'package:flutter_verbos/services/prefs_service.dart';
 import 'package:flutter_verbos/styles/logIn.dart';
 import 'package:flutter_verbos/widgets/loginButton.dart';
 import 'package:flutter_verbos/widgets/textfield.dart';
@@ -15,18 +17,31 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    
+  }
+  
+
   @override
   Widget build(BuildContext context) {
 
     dynamic altura = MediaQuery.of(context).size.height;
 
-    var emailController = TextEditingController();
-    var passwordController = TextEditingController();
+    
 
     xis(){
        print("string é essa");    
     }
 
+  
     return Scaffold(
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
@@ -38,6 +53,8 @@ class _LoginScreenState extends State<LoginScreen> {
               const Text("Bem-vindo", style: login,),
               SizedBox(height: altura * 0.12,),
               TextField(
+                style: TextStyle(color: Colors.white),
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   hintText: "Insira seu email",
                   hintStyle: TextStyle(color: Colors.white),
@@ -49,7 +66,12 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 10,),            
               TextField(
+                style: TextStyle(color: Colors.white),
+                obscureText: true,
+                enableSuggestions: false,
+                autocorrect: false,
                 decoration: InputDecoration(
+                  
                   hintText: "Insira sua senha",
                   hintStyle: TextStyle(color: Colors.white),
                   labelText: "Senha",
@@ -58,32 +80,22 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 controller: passwordController,
               ),
-              SizedBox(height: altura * 0.1,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  const Text("Esqueceu a senha? ", style: TextStyle(color: Colors.white, fontSize: 20),),
-                  const Text("GUILHERMEE", style: TextStyle(color: Color.fromARGB(255, 169, 36, 192),  fontSize: 23,),)
-                ],
-              ),
-              SizedBox(height: altura * 0.1,),
+              SizedBox(height: altura * 0.07,),
+              
+              SizedBox(height: altura * 0.07,),
               InkWell(
-                onTap: () => {
-                  print(emailController.text),
-                   Navigator.push(
-                    context, 
-                    MaterialPageRoute(builder: ((context) => FeedPage() ))) 
+                onTap: () async {
+                  await logar();
                 },
-                child:   
-                  Ink(
-                    decoration: const BoxDecoration(
-                      color: Colors.purple,
-                      borderRadius: BorderRadius.all(Radius.circular(5))
-                    ),
-                    height: 70,
-                    width: 500,
-                    
-                    child: Center(child: Text("Entrar", style: loginButtonText,),),
+                child: Ink(
+                  decoration: const BoxDecoration(
+                    color: Colors.purple,
+                    borderRadius: BorderRadius.all(Radius.circular(5))
+                  ),
+                  height: 70,
+                  width: 500,
+                  
+                  child: Center(child: Text("Entrar", style: loginButtonText,),),
                 ),
             ),
             SizedBox(height: altura * 0.05,),
@@ -99,16 +111,49 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     child:   
                       Ink(
-                        child:  Center(child: Text(" Cadastre-se", style: TextStyle(color: Color.fromARGB(255, 169, 36, 192),  fontSize: 23,)),),
+                        child:  Center(child: Text(" Cadastre-se", style: TextStyle(color: Color.fromARGB(255, 217, 0, 255),  fontSize: 23,)),),
                       ),
-                )
+                ),
+            
               ],
-            )
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: const [
+                Text("Esqueceu a senha? ", style: TextStyle(color: Colors.white, fontSize: 17),),
+                SizedBox(height: 70,),
+                Text("JA ERA", style: TextStyle(color: Color.fromARGB(255, 217, 0, 255),  fontSize: 22,),)
+              ],
+            ),
             ],
           ),
         ),
       )
     );
+  }
+
+  // Verifica se email e senha forem encontrados no MONGODB
+  Future logar() async {
+    try {        
+      
+      List dados = await MongoDataBase.getData();
+      var bytes = utf8.encode(passwordController.text);
+      var digest = sha1.convert(bytes);
+      for(var elementos in dados){
+        if(emailController.text == elementos["email"] && digest.toString() == elementos["password"].toString()){
+          PrefsService.save(elementos["email"]);
+          print("logado!!!");
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> const FeedPage()));
+          return; // não sei o pq exatamente mas não deixa o resto do código executar.
+        }
+        
+      }
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar( backgroundColor: Colors.red, content: Text("Usuário não encontrado.")));
+      
+    }catch (e) {
+      print("Error: $e");
+    }
   }
 
 }

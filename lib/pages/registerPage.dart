@@ -24,6 +24,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController confirmPasswordController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController nomeController = TextEditingController();
     
 
 
@@ -47,6 +48,18 @@ class _RegisterPageState extends State<RegisterPage> {
                 const Text("Cadastre-se", style: login,),
                 TextFormField(
                   style: TextStyle(color: Colors.white),
+                   decoration: InputDecoration(
+                    hintText: "Digite seu nome",
+                    hintStyle: TextStyle(color: Colors.white),
+                    labelText: "Nome",
+                    labelStyle: TextStyle(color: Colors.white),
+                    border: OutlineInputBorder()
+                  ), 
+                  controller: nomeController,
+                ),
+                const SizedBox(height: 10,),   
+                TextFormField(
+                  style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     hintText: "Insira seu email",
                     hintStyle: TextStyle(color: Colors.white),
@@ -56,7 +69,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ), 
                   controller: emailController,
                 ),
-                const SizedBox(height: 10,),            
+                         
                 TextFormField(
                   style: TextStyle(color: Colors.white),
                    decoration: InputDecoration(
@@ -80,7 +93,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     border: OutlineInputBorder()
                   ), 
                   controller: confirmPasswordController,
-                  
                 ),
                 SizedBox(height: altura * 0.05,),
                 InkWell(
@@ -105,10 +117,10 @@ class _RegisterPageState extends State<RegisterPage> {
     
   }
 
-  Future _insert(String email, String password, String confirmPassword) async{
+  Future _insert(String nome, String email, String password) async{
 
     var _id = M.ObjectId();
-    final data = MongoModel2(id: _id, email: email, password: password);
+    final data = MongoModel2(id: _id, nome: nome, email: email, password: password);
     var result = MongoDataBase.insert2(data);
     //ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Inserted ID: " + _id.$oid)));
     ScaffoldMessenger.of(context).showSnackBar(SnackBar( backgroundColor: Colors.green, content: Text("Cadastro feito com sucesso!")));
@@ -130,7 +142,7 @@ class _RegisterPageState extends State<RegisterPage> {
         var bytes = utf8.encode("${passwordController.text}");
         var digest = sha1.convert(bytes);
 
-        _insert(emailController.text, digest.toString(), confirmPasswordController.text);
+        _insert(nomeController.text, emailController.text, digest.toString());
         Navigator.pop(context);
 
       } catch (e) {

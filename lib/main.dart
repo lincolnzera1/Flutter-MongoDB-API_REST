@@ -8,6 +8,8 @@ import 'package:flutter_verbos/dbHelper/mongodb.dart';
 import 'package:flutter_verbos/get.dart';
 import 'package:flutter_verbos/insert.dart';
 import 'package:flutter_verbos/pages/initialPage.dart';
+import 'package:flutter_verbos/pages/splash2Screen.dart';
+import 'package:flutter_verbos/pages/splashScreen.dart';
 import 'package:flutter_verbos/verbos.dart';
 import 'package:http/http.dart' as http;
 import 'package:mongo_dart/mongo_dart.dart';
@@ -19,7 +21,6 @@ Future main() async{
   await MongoDataBase.connect();
   
   runApp(MyApp());
-  var pessoas = Pessoas();
 
 
 }
@@ -29,13 +30,12 @@ Future main() async{
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       theme: ThemeData(
-        primarySwatch: Colors.purple,
+        primarySwatch: Colors.lightGreen,
         inputDecorationTheme: const InputDecorationTheme(
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 3, color: Colors.purple),
+            borderSide: BorderSide(width: 3, color: Colors.lightGreen),
              borderRadius: BorderRadius.all(Radius.circular(15))
           ),
           
@@ -43,10 +43,9 @@ Future main() async{
             borderSide: BorderSide(width: 3, color: Colors.purple),
              borderRadius: BorderRadius.all(Radius.circular(15))
           ),
-          
         ),
       ),
-      home: LoginScreen(),
+      home: splash2Screen(),
       debugShowCheckedModeBanner: false,
     );
   }

@@ -5,6 +5,7 @@ import 'package:flutter_verbos/mongoDbModel.dart';
 import 'package:flutter_verbos/mongoModel2.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MongoDataBase{ // Conexão com banco de dados
   static var db, userCollection;
