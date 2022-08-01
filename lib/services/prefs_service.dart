@@ -5,12 +5,17 @@ class PrefsService{
 
   static final String _key = "key";
 
-  static save (String user) async {
+  static save ({String? email, String? name}) async {
     var prefs = await SharedPreferences.getInstance();
     prefs.setString(_key, jsonEncode({
-      "user": user,
+      "email": email,
+      "name": name,
       "isAuth": true
     })); // Transforma esse map em json
+
+    var oqTem = prefs.getString(_key);
+    var oqtem2 = jsonDecode(oqTem!);
+    print("PRefs é: $oqtem2");
   }
 
   static Future<bool> isAuth() async {

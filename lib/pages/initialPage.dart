@@ -142,8 +142,11 @@ class _LoginScreenState extends State<LoginScreen> {
       var digest = sha1.convert(bytes);
       for(var elementos in dados){
         if(emailController.text == elementos["email"] && digest.toString() == elementos["password"].toString()){
-          PrefsService.save(elementos["email"]);
+          
+          //Salva o email e o nome de quem foi logado, no sharedPreferences.
+          PrefsService.save(email: elementos["email"], name: elementos["nome"],);
           print("logado!!!");
+          
           Navigator.push(context, MaterialPageRoute(builder: (context)=> const FeedPage()));
           return; // não sei o pq exatamente mas não deixa o resto do código executar.
         }
