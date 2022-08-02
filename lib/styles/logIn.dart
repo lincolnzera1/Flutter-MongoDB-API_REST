@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 const login = TextStyle(
   fontSize: 27,
   fontWeight: FontWeight.bold,
-  color: Colors.white
+  color: Colors.black
 );
 
 const loginButtonText = TextStyle(
-  fontSize: 31,
+  fontSize: 27,
   fontWeight: FontWeight.bold,
-  color: Colors.white,
-
-
+  color: Colors.black,
 );

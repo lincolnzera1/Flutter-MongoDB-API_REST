@@ -34,4 +34,15 @@ class PrefsService{
     var prefs = await SharedPreferences.getInstance();
     await prefs.remove(_key);
   }
+
+  // Pega nome do usuário logado atualmente.
+   static Future<String> getName() async {
+    var prefs = await SharedPreferences.getInstance();
+    var jsonResult = prefs.getString(_key);
+    if(jsonResult != null){
+      var mapUser = await jsonDecode(jsonResult);
+      return mapUser["name"];
+    }
+    return "SemNome";
+  }
 }

@@ -27,7 +27,7 @@ class MongoDataBase{ // Conexão com banco de dados
       if(result.isSuccess){
         return "Data inserted";
       }else{
-        return "Something wrong";
+        return "Something wrong"; 
       }
     } catch (e) {
       return "$e error *****";
@@ -66,7 +66,7 @@ class MongoDataBase{ // Conexão com banco de dados
     
     // find() para pegar todos os dados da collection.
     final arrData = await userCollection.find().toList();
-    print("arrDATA é: ${arrData.runtimeType}");
+    //print("arrDATA é: ${arrData.runtimeType}");
     return arrData;
   }
 

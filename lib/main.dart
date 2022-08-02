@@ -7,7 +7,9 @@ import 'package:flutter_verbos/classes/pessoas.dart';
 import 'package:flutter_verbos/dbHelper/mongodb.dart';
 import 'package:flutter_verbos/get.dart';
 import 'package:flutter_verbos/insert.dart';
+import 'package:flutter_verbos/pages/feedPage.dart';
 import 'package:flutter_verbos/pages/initialPage.dart';
+import 'package:flutter_verbos/pages/registerPage.dart';
 import 'package:flutter_verbos/pages/splash2Screen.dart';
 import 'package:flutter_verbos/pages/splashScreen.dart';
 import 'package:flutter_verbos/verbos.dart';
@@ -38,15 +40,19 @@ Future main() async{
             borderSide: BorderSide(width: 3, color: Colors.lightGreen),
              borderRadius: BorderRadius.all(Radius.circular(15))
           ),
-          
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 3, color: Colors.purple),
+            borderSide: BorderSide(width: 3, color: Colors.lightGreen),
              borderRadius: BorderRadius.all(Radius.circular(15))
           ),
         ),
       ),
       home: splash2Screen(),
       debugShowCheckedModeBanner: false,
+      routes: {
+        "/feed": (_) => FeedPage(),
+        "/register": (_) => RegisterPage(),
+        "/login":(_) => LoginScreen()
+      },
     );
   }
 }  
